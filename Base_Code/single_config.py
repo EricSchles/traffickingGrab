@@ -1,0 +1,21 @@
+from sys import argv
+
+config = open("config.txt","w")
+
+base = argv[1]
+start = base+"/cas/"
+to_append = start
+url_list = []
+url_list.append(base)
+url_list.append(start)
+
+for i in xrange(1,2):
+    to_append += "index"+str(i)+"00.html"
+    url_list.append(to_append)
+    to_append = start
+
+for i in url_list:
+    config.write(i + "\n")
+
+
+config.close()
