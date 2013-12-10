@@ -1,0 +1,47 @@
+import os
+import glob
+import re
+
+def time_posted(contents):
+    offset = contents.find("Posted: <time datetime=")
+    date = contents[offset+23:offset+49] 
+    #this is a based on the conventions within craigslist
+    #date format: year-month-dayTHour:minute:second-timezone (based on gmt)
+    return date
+
+def picture_check(contents):
+    pattern = re.compile(".jpg")
+    m = pattern.search(contents)
+    if m == None:
+        return False
+    else:
+        return True
+
+#getting the original link if pictures exist:
+
+present_dir = "results/results_women/prostitutes"
+os.chdir(present_dir)    
+files_to_check = glob.glob("*.html")
+results = open("results.csv","w")
+files_to_check = glob.glob("*.html")
+for i_file in files_to_check:
+    
+    j_file = open(i_file,"r")
+    html_offset = i_file.find(".html")
+    folder_name = i_file[:html_offset]
+    j_contents = j_file.read()
+    picture_exists = picture_check(j_contents)
+    if picture_exists: #download all the picture
+        os.chdir("../../../recursive_top_level/"+folder_name)
+        config = open("config.txt","r")
+        page = config.read()
+        page = page.lstrip().rstrip()
+        config.close()
+        os.chdir("../../")
+        results.write(page+"\n")
+        os.chdir(present_dir)
+
+
+os.chdir("../../../")
+results.close()
+
