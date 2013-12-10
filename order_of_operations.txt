@@ -1,0 +1,10 @@
+python config.py
+python automate.py
+python recursive_scrape.py
+
+python results_filter_men.py
+python results_filter_women.py
+
+python classify_men.py
+python classify_women.py
+python posts_over_time.py
